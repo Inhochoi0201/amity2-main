@@ -144,7 +144,7 @@ class BodyLanguageTeamController extends GetxController{
   List<Map<int,int>> result = [];
 
 
-  nextTeam(){
+  Future nextTeam() async{
     if(int.parse(Get.put(SettingController()).selectedMoreTeam.value) > currentTeam.value){
         correct.value = 0;
         currentTeam.value++;

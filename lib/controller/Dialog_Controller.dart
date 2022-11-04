@@ -453,7 +453,7 @@ class DialogController extends GetxController{
                               SizedBox(width: 10.w,),
                               Text('${Get
                                   .put(BodyLanguageTeamController())
-                                  .result[index].keys}팀 / ${Get.put(BodyLanguageTeamController()).result[index].values}개', style: TextStyle(
+                                  .result[index].keys.first}팀 / ${Get.put(BodyLanguageTeamController()).result[index].values.first}개', style: TextStyle(
                                   fontSize: index == 0 ? 13.sp : 12.sp, fontWeight: index == 0 ? FontWeight.bold : FontWeight.normal,
                                   color: index == 0 ? const Color(0xffFFD700) : index == 1 ? const Color(0xffC0C0C0) : const Color(0xff3d3d3d)
                               ))
@@ -464,8 +464,7 @@ class DialogController extends GetxController{
                       SizedBox(height: 10.h,),
                       GestureDetector(
                         onTap: () {
-                            Get.put(BodyLanguageTeamController()).nextTeam();
-                            Get.back();
+                            Get.put(BodyLanguageTeamController()).nextTeam().then((value) => Get.back());
                         },
                         child: Container(
                           height: 100.h,
