@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "168996669418",
+    "project_id": "amity2-fbe70",
+    "storage_bucket": "amity2-fbe70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168996669418:android:ff7a79bb04a43db3875493",
+        "android_client_info": {
+          "package_name": "com.example.amity2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168996669418-2eb8oebh8oqmp1gk420pv031sbfc54er.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx8eYVVxRNi34wZkwSZ03vmb97TN1E5MU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168996669418-2eb8oebh8oqmp1gk420pv031sbfc54er.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
