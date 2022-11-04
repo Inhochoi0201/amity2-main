@@ -202,7 +202,7 @@ class DialogController extends GetxController{
         }else if(n==2){
           //Get.to(()=>BodyLanguagePersonal)
         }else if(n==3){
-          Get.to(()=>BodyLanguageTeam());
+          Get.to(()=>const ScreenProtect2());
         }
         timer.cancel();
       }
@@ -467,18 +467,16 @@ class DialogController extends GetxController{
                             Get.put(BodyLanguageTeamController()).nextTeam();
                             Get.back();
                         },
-                        child: Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 16.w),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: const Color(0xffaecdff),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            padding:  EdgeInsets.fromLTRB(30.w, 10.h, 30.w, 10.h),
-                            child:  Center(child: Text('다음 팀 시작하기', style: TextStyle(fontSize: 13.sp, color: Colors.white),),),
+                        child: Container(
+                          height: 100.h,
+                          decoration: BoxDecoration(
+                            color: const Color(0xffaecdff),
+                            borderRadius: BorderRadius.circular(50),
                           ),
+                          child:  Center(child: Text('다음 팀 시작하기', style: TextStyle(fontSize: 13.sp, color: Colors.white),),),
                         ),
                       ),
+                      SizedBox(height: 10.h,),
                       Text('버튼을 누르면 게임이 바로 시작됩니다.', style: TextStyle(fontSize: 10.sp),),
                       SizedBox(height: 10.h,),
                     ],

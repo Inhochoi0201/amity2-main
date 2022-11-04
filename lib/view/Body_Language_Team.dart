@@ -146,10 +146,10 @@ class BodyLanguageTeamController extends GetxController{
 
   nextTeam(){
     if(int.parse(Get.put(SettingController()).selectedMoreTeam.value) > currentTeam.value){
-        currentTeam.value++;
         correct.value = 0;
-        timer.time.value = int.parse(Get.put(SettingController()).selectedMinuteTimer.value) * 60; //타이머 설정
+        currentTeam.value++;
         i.value++;
+        timer.time.value = int.parse(Get.put(SettingController()).selectedMinuteTimer.value) * 60; //타이머 설정
         timer.start();
     }else if(int.parse(Get.put(SettingController()).selectedMoreTeam.value) == currentTeam.value){
       currentTeam.value = 1;

@@ -11,10 +11,12 @@ class TimerController extends GetxController{
   int currentGame = 0;
   void start() {
     audioController.audioClock();
-    timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+    timer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
       if(time.value > 0) {
         time.value--;
       } else if(time.value == 0){
+        timer.cancel();
+        time.value = -100;
         if(currentGame == 1){
           audioController.clockSfx.stop();
           Get.put(DialogController()).gameOver();
@@ -24,13 +26,12 @@ class TimerController extends GetxController{
 
         }else if(currentGame == 4){
           Get.put(BodyLanguageTeamController()).result.add({Get.put(BodyLanguageTeamController()).currentTeam.value : Get.put(BodyLanguageTeamController()).correct.value});
+          Get.put(BodyLanguageTeamController()).result.sort((a,b)=> a.values.first.compareTo(b.values.first));
           audioController.clockSfx.stop();
           Get.put(DialogController()).teamResult();
         }else if(currentGame == 5){
 
       }
-        timer.cancel();
-        time.value = int.parse(Get.put(SettingController()).selectedTimer.value);
     }});
   }
 
