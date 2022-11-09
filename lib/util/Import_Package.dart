@@ -13,13 +13,18 @@ export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:flutter/services.dart';
 export 'package:flutter_rounded_progress_bar/flutter_icon_rounded_progress_bar.dart';
 export 'package:flutter_rounded_progress_bar/rounded_progress_bar_style.dart';
-
+export  'package:cloud_firestore/cloud_firestore.dart';
+export 'package:firebase_core/firebase_core.dart';
+export 'package:toggle_switch/toggle_switch.dart';
+export 'package:carousel_slider/carousel_slider.dart';
+export 'package:flutter_spinkit/flutter_spinkit.dart';
 /*******************Controller*******************/
 export 'package:amity2/controller/Setting_Controller.dart';
 export 'package:amity2/controller/Penalty_Controller.dart';
 export 'package:amity2/controller/Dialog_Controller.dart';
 export 'package:amity2/controller/Audio_Controller.dart';
 export 'package:amity2/controller/Timer_Controller.dart';
+
 /***********************Screen*******************/
 export 'package:amity2/view/Word_Game.dart';
 export 'package:amity2/view/Player_Setting.dart';
@@ -27,8 +32,14 @@ export 'package:amity2/view/Body_Language_Setting.dart';
 export 'package:amity2/view/Bomb_Game_Setting.dart';
 export 'package:amity2/view/Home.dart';
 export 'package:amity2/view/Word_Game_Setting.dart';
+export 'package:amity2/util/Screen_Protect.dart';
+export 'package:amity2/view/Body_Language_Team.dart';
+export 'package:amity2/view/Bomb_Game.dart';
+export 'package:amity2/view/Body_Language_Solo.dart';
 
 /***********************Model*******************/
 export 'package:amity2/model/Player.dart';
 /***********************util*********************/
 export 'package:amity2/util/My_Behavior.dart';
+export 'package:amity2/util/Theme.dart';
+export 'package:amity2/util/Theme_View.dart';

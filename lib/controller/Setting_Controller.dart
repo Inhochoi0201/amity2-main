@@ -1,6 +1,5 @@
 import 'package:amity2/util/Import_Package.dart';
-import 'package:amity2/util/Theme.dart';
-import 'package:amity2/util/Theme_View.dart';
+
 
 class SettingController extends GetxController {
   RxString selectedTimer = '0'.obs;
@@ -45,7 +44,7 @@ class SettingController extends GetxController {
     playerList.clear();
     for (var i = 1; i <= int.parse(s); i++) {
       playerList.add(
-          Player(name: '플레이어${i}', image: playerIMG[i - 1], key: GlobalKey()));
+          Player(name: '플레이어${i}', image: playerIMG[i - 1], key: GlobalKey(), score: 0));
     }
   }
 
@@ -53,7 +52,7 @@ class SettingController extends GetxController {
     playerList.clear();
     for (var i = 1; i <= int.parse(s); i++) {
       playerList.add(
-          Player(name: '팀$i', image: playerIMG[i - 1], key: GlobalKey()));
+          Player(name: '팀$i', image: playerIMG[i - 1], key: GlobalKey(), score: 0));
     }
   }
 
@@ -377,6 +376,38 @@ class SettingController extends GetxController {
 
   var selectedTheme = '테마를 선택해주세요.'.obs;
 
+  RxInt selectedRandomTime = (Random().nextInt(30)+30).obs;
+  Widget randomTimer(){
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.timer_outlined, color: const Color(0xffaecdff), size: 24.sp,),
+          SizedBox(width: 10.w,),
+          Text('타이머(랜덤)', style: TextStyle(fontSize: 16.sp),),
+              Padding(
+                  padding:  EdgeInsets.all(16.r),
+                  child: ToggleSwitch(
+                    initialLabelIndex: 0,
+                    totalSwitches: 3,
+                    labels: const ['Fast','Basic','Slow'],
+                    activeBgColor:const [Color(0xffAECDFF)],
+                    activeFgColor: Colors.white,
+                    inactiveBgColor: const Color(0xffdddddd),
+                    inactiveFgColor: const Color(0xff3d3d3d),
+                    onToggle: (index){
+                      if(index == 0){
+                        selectedRandomTime.value = (Random().nextInt(30)+30);
+                      }else if(index == 1){
+                        selectedRandomTime.value = (Random().nextInt(30)+60);
+                      }else{
+                        selectedRandomTime.value =(Random().nextInt(30)+90);
+                      }
+                      print(selectedRandomTime.value);
+                    },
+                  )
+              ),
+        ]);
+  }
 
   void changePenalty(var val){
     penaltyMode.value = val;

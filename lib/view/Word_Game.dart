@@ -1,5 +1,3 @@
-import 'package:amity2/controller/Audio_Controller.dart';
-import 'package:amity2/controller/Timer_Controller.dart';
 import 'package:amity2/util/Import_Package.dart';
 
 
@@ -8,6 +6,7 @@ class WordGame extends StatelessWidget {
   final controller = Get.put(SettingController());
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
     return  WillPopScope(
       onWillPop: () {
         Get.put(DialogController()).back();
@@ -211,7 +210,5 @@ class WordGameController extends GetxController{
     // TODO: implement onInit
     super.onInit();
     makeTitle();
-    timer.time.value = int.parse(Get.put(SettingController()).selectedTimer.value);
-    timer.start();
   }
 }

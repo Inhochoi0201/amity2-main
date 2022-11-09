@@ -1,6 +1,5 @@
+import 'package:amity2/model/Team.dart';
 import 'package:amity2/util/Import_Package.dart';
-import 'package:amity2/util/Theme.dart';
-
 
 class BodyLanguageTeam extends StatelessWidget {
   BodyLanguageTeam({Key? key}) : super(key: key);
@@ -24,9 +23,10 @@ class BodyLanguageTeam extends StatelessWidget {
             children: [
               Obx(
                 ()=>IconRoundedProgressBar(
-                  percent: (timer.time/(int.parse(controller.selectedMinuteTimer.value) * 60)) * 100,
-                  childCenter: Text(controller.timeVisibleMode.value ? '가림막 모드' : timer.time.value.toString(), style: TextStyle(color: const Color(0xff4169e1), fontSize: 9.sp, fontWeight: FontWeight.bold,fontFamily: 'OneTitle'),),
-                  childRight: Text('현재 팀: ${gameController.currentTeam.value}팀', style: TextStyle(fontSize: 13.sp, color:  const Color(0xff4169e1)),),
+                  percent: timer.time.value > 0 ? (timer.time/(int.parse(controller.selectedMinuteTimer.value) * 60)) * 100 : 0.01,
+                  childCenter: Text(controller.timeVisibleMode.value ? '가림막 모드' :
+    timer.time.value > 0 ? timer.time.value.toString() : '0', style: TextStyle(color: const Color(0xff4169e1), fontSize: 9.sp, fontWeight: FontWeight.bold,fontFamily: 'OneTitle'),),
+                  childRight: Text('현재 팀: ${gameController.currentTeam + 1}팀', style: TextStyle(fontSize: 13.sp, color:  const Color(0xff4169e1)),),
                   height: 60.h,
                   widthIconSection: 50,
                   icon: Padding(
@@ -45,73 +45,115 @@ class BodyLanguageTeam extends StatelessWidget {
               ),
               ///'영화','애니','웹툰','인물','물건','음악'
               Expanded(
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: Obx(
-                        ()=> Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: Center(child: Text(
-                          controller.selectedTheme.value == '영화' ?
-                              themeController.movie[gameController.i.value] :
-                          controller.selectedTheme.value == '애니' ?
-                          themeController.animation[gameController.i.value] :
-                          controller.selectedTheme.value == '웹툰' ?
-                          themeController.webtoon[gameController.i.value] :
-                          controller.selectedTheme.value == '인물' ?
-                          themeController.celeb[gameController.i.value] :
-                          controller.selectedTheme.value == '물건' ?
-                          themeController.product[gameController.i.value] :
-                          controller.selectedTheme.value == '음악' ?
-                          themeController.music[gameController.i.value] :
-                              '테마를 불러오던 중\n오류가 발생하였습니다.'
-                    ,style: const TextStyle(fontFamily: 'OneTitle'),textAlign: TextAlign.center,),),
+                child: GetBuilder<BodyLanguageTeamController>(
+                  init: gameController,
+                  builder: (value) {
+                    return Row(
+                      children: [
+                         InkWell(
+                              onTap: () {
+                                print(timer.isReady);
+                               if(!timer.isReady){
+                                 timer.correctNum++;
+                                 gameController.i.value++;
+                                 gameController.update();
+                               }else{
+                                 Get.snackbar('준비상태입니다.', '패스를 누르면 바로 시작합니다.',
+                                   snackPosition: SnackPosition.TOP,
+                                   forwardAnimationCurve: Curves.elasticInOut,
+                                   reverseAnimationCurve: Curves.easeOut,);
+                               }
+                              },
+                              child: Container(
+                                width: Get.width * 0.1,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: const Color(0xff6495ED),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '정답\n${timer.correctNum}',
+                                    style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  textAlign: TextAlign.center,),
+                                ),
+                              ),
+                            ),
+                        Expanded(
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Center(
+                                child: Text(
+                                  controller.selectedTheme.value == '영화'
+                                      ? themeController
+                                          .movie[gameController.i.value]
+                                      : controller.selectedTheme.value == '애니'
+                                          ? themeController
+                                              .animation[gameController.i.value]
+                                          : controller.selectedTheme.value == '웹툰'
+                                              ? themeController
+                                                  .webtoon[gameController.i.value]
+                                              : controller.selectedTheme.value ==
+                                                      '인물'
+                                                  ? themeController.celeb[
+                                                      gameController.i.value]
+                                                  : controller.selectedTheme
+                                                              .value ==
+                                                          '물건'
+                                                      ? themeController.product[
+                                                          gameController.i.value]
+                                                      : controller.selectedTheme
+                                                                  .value ==
+                                                              '음악'
+                                                          ? themeController.music[
+                                                              gameController
+                                                                  .i.value]
+                                                          : '테마를 불러오던 중\n오류가 발생하였습니다.',
+                                  style: TextStyle(fontSize: 62.sp,fontFamily: 'OneTitle'),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
                         ),
-                  ),
+                        InkWell(
+                          onTap: () {
+                            print(timer.time);
+                            if(timer.isReady){
+                              gameController.nextTeam();
+                              timer.isReady = false;
+                            }else{
+                              gameController.i.value++;
+                              gameController.update();
+                            }
+
+                          },
+                          child: Container(
+                            width: Get.width * 0.1,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: const Color(0xffFA8072),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '패스',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15.sp,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+                  }
                 ),
               ),
-              Container(
-                padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 5.h),
-                height: 100.h,
-                child: Obx(
-                    ()=> Row(
-                    children: [
-                      InkWell(
-                        onTap:(){
-                          gameController.correct.value++;
-                          gameController.i.value++;
-                        },
-                        child: Container(
-                          width: Get.width/2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: const Color(0xff6495ED),
-                          ),
-                          child: Center(child: Text('정답 ${gameController.correct.value}개', style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold, color: Colors.white),),),
-                        ),
-                      ),
-                      SizedBox(width: 10.w,),
-                      InkWell(
-                        onTap: (){
-                          gameController.i.value++;
-                        },
-                        child: Container(
-                          width: (Get.width/2) -58.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: const Color(0xffFA8072),
-                          ),
-                          child: Center(child: Text('PASS', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp, color: Colors.white),),),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
+            ]),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
 
@@ -122,6 +164,7 @@ class BodyLanguageTeamController extends GetxController{
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    timer.correctNum = 0;
     if(Get.put(SettingController()).selectedTheme.value == '영화'){
       themeController.movie.shuffle();
     }else if(Get.put(SettingController()).selectedTheme.value == '애니'){
@@ -137,22 +180,24 @@ class BodyLanguageTeamController extends GetxController{
     }
     timer.time.value = int.parse(Get.put(SettingController()).selectedMinuteTimer.value) * 60; //타이머 설정
     timer.start();
+    ever(i, (callback) => update());
   }
+
   RxInt i =0.obs;
-  RxInt currentTeam = 1.obs;
-  RxInt correct = 0.obs;
-  List<Map<int,int>> result = [];
+  int currentTeam = 0;
 
+  List<Team> result = [];
 
-  Future nextTeam() async{
-    if(int.parse(Get.put(SettingController()).selectedMoreTeam.value) > currentTeam.value){
-        correct.value = 0;
-        currentTeam.value++;
-        i.value++;
-        timer.time.value = int.parse(Get.put(SettingController()).selectedMinuteTimer.value) * 60; //타이머 설정
-        timer.start();
-    }else if(int.parse(Get.put(SettingController()).selectedMoreTeam.value) == currentTeam.value){
-      currentTeam.value = 1;
-    }
+  saveData(){
+    result.add(Team( name: '${currentTeam + 1}', score: timer.correctNum));
+    result.sort((b,a) => a.score.compareTo(b.score));
+  }
+
+  nextTeam(){
+    i.value++;
+    currentTeam++;
+    timer.time.value = int.parse(Get.put(SettingController()).selectedMinuteTimer.value) * 60;
+    timer.start();
+    update();
   }
 }

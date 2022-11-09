@@ -1,6 +1,8 @@
 import 'package:amity2/util/Import_Package.dart';
-import 'package:amity2/view/Body_Language_Team.dart';
-void main() {
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

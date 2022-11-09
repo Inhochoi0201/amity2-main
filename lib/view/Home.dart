@@ -24,9 +24,9 @@ class Home extends StatelessWidget {
           ),
           pages: [
             WordGameSetting(),
-            /*BombGameSetting(),
-            InstGameSetting(),*/
-            Container(color: Colors.blue, child:  Center(child: Text(Get.height.toString()),),),
+            BombGameSetting(),
+            //InstGameSetting(),*/
+            //Container(color: Colors.blue, child:  Center(child: Text(Get.height.toString()),),),
             BodyLanguageSetting(),
             Container(color: Colors.yellow, child:  Center(child: Text(Get.width.toString()),),),
           ],

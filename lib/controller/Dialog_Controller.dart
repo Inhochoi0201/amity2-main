@@ -1,8 +1,4 @@
-import 'package:amity2/controller/Audio_Controller.dart';
-import 'package:amity2/controller/Timer_Controller.dart';
 import 'package:amity2/util/Import_Package.dart';
-import 'package:amity2/view/Body_Language_Team.dart';
-import 'package:amity2/util/Screen_Protect.dart';
 
 class DialogController extends GetxController{
   void customReset(){
@@ -193,16 +189,23 @@ class DialogController extends GetxController{
     timer = Timer.periodic(const Duration(milliseconds: 1300), (timer) {
       if(time.value > 0) {
         time.value--;
+        if(time.value==1 && n == 1){
+          BombGameController().initialized;
+        }
       } else if(time.value == 0){
         Get.back();
         if(n==0){
           Get.to(()=> WordGame());
+          Get.put(TimerController()).time.value = int.parse(Get.put(SettingController()).selectedTimer.value);
+          Get.put(TimerController()).start();
         }else if(n==1){
-
+          Get.to(()=> BombGame());
+          Get.put(TimerController()).time.value = Get.put(SettingController()).selectedRandomTime.value;
+          Get.put(TimerController()).start();
         }else if(n==2){
-          //Get.to(()=>BodyLanguagePersonal)
+          Get.to(()=> ScreenProtect2(isTeam: false));
         }else if(n==3){
-          Get.to(()=>const ScreenProtect2());
+          Get.to(()=> ScreenProtect2(isTeam: true));
         }
         timer.cancel();
       }
@@ -230,7 +233,7 @@ class DialogController extends GetxController{
             children: [
                Icon(Icons.games_outlined, size: 50.r,color: const Color(0xffaecdff),),
                SizedBox(height: 20.h,),
-              n != 2?
+              n != 3?
               Text('${Get.put(SettingController()).playerList[0].name}님 부터\n시작합니다.', style:  TextStyle(fontSize: 18.sp), textAlign: TextAlign.center,) :
               Text('${Get.put(SettingController()).playerList[0].name} 부터\n시작합니다.', style:  TextStyle(fontSize: 18.sp), textAlign: TextAlign.center,),
                SizedBox(height: 30.h,),
@@ -254,7 +257,7 @@ class DialogController extends GetxController{
         ));
   }
 
-  void gameOver(){
+  void gameOver(int n){
     audioGameover();
     Get.dialog(
         WillPopScope(
@@ -312,8 +315,14 @@ class DialogController extends GetxController{
                   ),
                   GestureDetector(
                     onTap: (){
-                      Get.put(WordGameController()).makeTitle();
-                      Get.put(TimerController()).start();
+                      if(n==1){
+                        Get.put(WordGameController()).makeTitle();
+                        Get.put(TimerController()).start();
+                      }else if(n==2){
+                        Get.put(BombGameController()).makeTitle();
+                        Get.put(TimerController()).time.value = Get.put(SettingController()).selectedRandomTime.value;
+                        Get.put(TimerController()).start();
+                      }
                       Get.back();
                       },
                     child: Padding(
@@ -340,150 +349,7 @@ class DialogController extends GetxController{
         ));
   }
 
-  ///몸말 팀전 타이머 종료
-  void teamResult(){
-    audioGameover();
-    Get.dialog(
-        WillPopScope(
-          onWillPop: ()=>Future(() => false),
-          child: AlertDialog(
-            insetPadding: const EdgeInsets.all(0),
-            scrollable: true,
-            backgroundColor: Colors.transparent,
-            content: Container(
-              padding: EdgeInsets.all(50.r),
-              height: Get.height,
-              width: Get.width,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: int.parse(Get.put(SettingController()).selectedMoreTeam.value) ==  Get.put(BodyLanguageTeamController()).currentTeam.value ?
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('최종결과', style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold, color: Colors.red),),
-                  SizedBox(height: 10.h,),
-                  Expanded(
-                    child: ListView.separated(
-                        itemBuilder: (ctx,index)=> Row(children: [
-                          Text('${index+1}등' , style: TextStyle(
-                            fontSize: index == 0 ? 13.sp : 12.sp, fontWeight: index == 0 ? FontWeight.bold : FontWeight.normal,
-                              color: index == 0 ? const Color(0xffFFD700) : index == 1 ? const Color(0xffC0C0C0) : const Color(0xff3d3d3d)
-                          ),),
-                          SizedBox(width: 10.w,),
-                          Text('${Get
-                              .put(BodyLanguageTeamController())
-                              .result[index].keys}팀 / ${Get.put(BodyLanguageTeamController()).result[index].values}개', style: TextStyle(
-                          fontSize: index == 0 ? 13.sp : 12.sp, fontWeight: index == 0 ? FontWeight.bold : FontWeight.normal,
-                          color: index == 0 ? const Color(0xffFFD700) : index == 1 ? const Color(0xffC0C0C0) : const Color(0xff3d3d3d)
-                          ))
-                        ],),
-                        separatorBuilder: (ctx, index) => SizedBox(height: 3.h,),
-                        itemCount:  int.parse(Get.put(SettingController()).selectedMoreTeam.value)),
-                  ),
-                  SizedBox(height: 10.h,),
-                  Get.put(SettingController()).penaltyMode.value ?
-                  Column(
-                    children: [
-                      Text('▼ 벌칙 ▼',style: TextStyle(fontSize: 12.sp , color: Colors.indigoAccent),textAlign: TextAlign.right,),
-                      SizedBox(height: 5.h,),
-                      Text(Get.put(PenaltyController()).showList[Random().nextInt(Get.put(PenaltyController()).showList.length-1)],style:  TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold , color: Colors.red),textAlign: TextAlign.center,),
-                    ],
-                  ) :
-                  Text('다음에 더 잘해봐요!', style: TextStyle(fontSize: 12.sp),),
-                  SizedBox(height: 10.h,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                              Get.back(closeOverlays: true);
-                              Get.to(()=>const ScreenProtect());
-                        },
-                        child: Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 16.w),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: const Color(0xffaecdff),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            padding:  EdgeInsets.fromLTRB(30.w, 10.h, 30.w, 10.h),
-                            child:  Center(child: Text('나가기', style: TextStyle(fontSize: 13.sp, color: Colors.white),),),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          Get.put(WordGameController()).makeTitle();
-                          Get.put(TimerController()).start();
-                          Get.back();
-                        },
-                        child: Padding(
-                          padding:  EdgeInsets.only(right: 16.w),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: const Color(0xffaecdff),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            padding:  EdgeInsets.fromLTRB(30.w, 10.h, 30.w, 10.h),
-                            child:  Center(child: Text('다시하기', style: TextStyle(fontSize: 13.sp,color: Colors.white),),),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 10.h,),
-                ]
-              ) :
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('중간결과', style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold, color: Colors.red),),
-                      SizedBox(height: 10.h,),
-                      Expanded(
-                        child: ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (ctx,index)=> Row(children: [
-                              Text('${index+1}등' , style: TextStyle(
-                                  fontSize: index == 0 ? 13.sp : 12.sp, fontWeight: index == 0 ? FontWeight.bold : FontWeight.normal,
-                                  color: index == 0 ? const Color(0xffFFD700) : index == 1 ? const Color(0xffC0C0C0) : const Color(0xff3d3d3d)
-                              ),),
-                              SizedBox(width: 10.w,),
-                              Text('${Get
-                                  .put(BodyLanguageTeamController())
-                                  .result[index].keys.first}팀 / ${Get.put(BodyLanguageTeamController()).result[index].values.first}개', style: TextStyle(
-                                  fontSize: index == 0 ? 13.sp : 12.sp, fontWeight: index == 0 ? FontWeight.bold : FontWeight.normal,
-                                  color: index == 0 ? const Color(0xffFFD700) : index == 1 ? const Color(0xffC0C0C0) : const Color(0xff3d3d3d)
-                              ))
-                            ],),
-                            separatorBuilder: (ctx, index) => SizedBox(height: 3.h,),
-                            itemCount: Get.put(BodyLanguageTeamController()).currentTeam.value),
-                      ),
-                      SizedBox(height: 10.h,),
-                      GestureDetector(
-                        onTap: () {
-                            Get.put(BodyLanguageTeamController()).nextTeam().then((value) => Get.back());
-                        },
-                        child: Container(
-                          height: 100.h,
-                          decoration: BoxDecoration(
-                            color: const Color(0xffaecdff),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child:  Center(child: Text('다음 팀 시작하기', style: TextStyle(fontSize: 13.sp, color: Colors.white),),),
-                        ),
-                      ),
-                      SizedBox(height: 10.h,),
-                      Text('버튼을 누르면 게임이 바로 시작됩니다.', style: TextStyle(fontSize: 10.sp),),
-                      SizedBox(height: 10.h,),
-                    ],
-                  )
-            ),
-          ),
-        ));
-  }
+
   final sfxPlayer = AudioPlayer();
 
   Future audioGameover() async{
