@@ -18,6 +18,7 @@ export 'package:firebase_core/firebase_core.dart';
 export 'package:toggle_switch/toggle_switch.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
+export 'package:flutter_tts/flutter_tts.dart';
 /*******************Controller*******************/
 export 'package:amity2/controller/Setting_Controller.dart';
 export 'package:amity2/controller/Penalty_Controller.dart';
@@ -26,20 +27,22 @@ export 'package:amity2/controller/Audio_Controller.dart';
 export 'package:amity2/controller/Timer_Controller.dart';
 
 /***********************Screen*******************/
-export 'package:amity2/view/Word_Game.dart';
+export 'package:amity2/view/WordGame/Word_Game.dart';
 export 'package:amity2/view/Player_Setting.dart';
-export 'package:amity2/view/Body_Language_Setting.dart';
-export 'package:amity2/view/Bomb_Game_Setting.dart';
+export 'package:amity2/view/BodyLanguagGame/Body_Language_Setting.dart';
+export 'package:amity2/view/BombGame/Bomb_Game_Setting.dart';
 export 'package:amity2/view/Home.dart';
-export 'package:amity2/view/Word_Game_Setting.dart';
+export 'package:amity2/view/WordGame/Word_Game_Setting.dart';
 export 'package:amity2/util/Screen_Protect.dart';
-export 'package:amity2/view/Body_Language_Team.dart';
-export 'package:amity2/view/Bomb_Game.dart';
-export 'package:amity2/view/Body_Language_Solo.dart';
-
+export 'package:amity2/view/BodyLanguagGame/Body_Language_Team.dart';
+export 'package:amity2/view/BombGame/Bomb_Game.dart';
+export 'package:amity2/view/BodyLanguagGame/Body_Language_Solo.dart';
+export 'package:amity2/view/LylicsGame/Lylics_Game_Setting.dart';
+export 'package:amity2/view/LylicsGame/Lylics_Game.dart';
 /***********************Model*******************/
 export 'package:amity2/model/Player.dart';
 /***********************util*********************/
 export 'package:amity2/util/My_Behavior.dart';
 export 'package:amity2/util/Theme.dart';
 export 'package:amity2/util/Theme_View.dart';
+export 'package:amity2/util/Music.dart';

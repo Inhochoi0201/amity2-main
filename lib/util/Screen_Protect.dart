@@ -1,5 +1,5 @@
 import 'package:amity2/util/Import_Package.dart';
-import 'package:amity2/view/Body_Language_Solo.dart';
+import 'package:amity2/view/BodyLanguagGame/Body_Language_Solo.dart';
 
 
 class ScreenProtect extends StatelessWidget{

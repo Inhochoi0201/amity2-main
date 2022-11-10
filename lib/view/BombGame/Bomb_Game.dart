@@ -40,20 +40,23 @@ class BombGame extends StatelessWidget {
                              controller.title , style: TextStyle(fontSize: 37.sp, fontWeight: FontWeight.bold),
                            ),),
                          ),
-                         AnimatedContainer(
-                           curve: Curves.bounceIn,
-                           height:120.r,
-                           width:120.r,
-                           duration: const Duration(milliseconds: 200),
-                           child: ImageIcon(const AssetImage('assets/images/bomb.png'), size: 80.r, color: controller.colors,),
-                         )
+                         SizedBox(height: 10.h,),
+                         Stack(
+                           children: [
+                             SpinKitPulse(color: controller.colors, size: 100.r),
+                             Positioned(
+                                 left: 10.w, right: 0, top: 0, bottom: 10.h,
+                                 child: Image.asset('assets/images/bomb.png',height: 100.r, width: 100.r,)
+                             ),
+                           ],
+                         ),
                        ],
                      );
                    }
                  ),
                   playerSlider(),
                   SizedBox(
-                    height: 20.h,
+                    height: 10.h,
                   ),
                   GestureDetector(
                     onTap: (){

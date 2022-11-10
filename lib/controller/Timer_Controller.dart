@@ -36,7 +36,8 @@ class TimerController extends GetxController{
           correctNum = 0;
           update();
         }else if(currentGame == 5){
-
+          audioController.clockSfx.stop();
+          Get.put(DialogController()).gameOver(currentGame);
       }
     }});
   }

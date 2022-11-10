@@ -1,5 +1,6 @@
 import 'package:amity2/util/Import_Package.dart';
 
+
 class DialogController extends GetxController{
   void customReset(){
     Get.dialog(
@@ -206,6 +207,10 @@ class DialogController extends GetxController{
           Get.to(()=> ScreenProtect2(isTeam: false));
         }else if(n==3){
           Get.to(()=> ScreenProtect2(isTeam: true));
+        }else if(n==4){
+          Get.to(()=>LylicsGame());
+          Get.put(TimerController()).time.value = int.parse(Get.put(SettingController()).selectedMinuteTimer.value)*60;
+          Get.put(TimerController()).start();
         }
         timer.cancel();
       }

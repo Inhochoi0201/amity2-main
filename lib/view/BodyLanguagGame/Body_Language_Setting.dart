@@ -1,5 +1,5 @@
 import 'package:amity2/util/Import_Package.dart';
-import 'package:amity2/view/Body_Languge_Setting_How_To_Play.dart';
+import 'package:amity2/view/BodyLanguagGame/Body_Languge_Setting_How_To_Play.dart';
 import 'dart:math' as math;
 
 
@@ -21,7 +21,7 @@ class BodyLanguageSetting extends StatelessWidget {
               child:  Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SpinKitPouringHourGlassRefined(color: Color(0xffaecdff),),
+                  const SpinKitChasingDots(color: Color(0xffaecdff),),
                   SizedBox(height: 20.h,),
                   Text('데이터를 불러오고 있습니다...',style: TextStyle(fontSize: 12.sp),)
                 ],

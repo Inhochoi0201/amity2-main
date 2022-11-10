@@ -1,5 +1,4 @@
 import 'package:amity2/util/Import_Package.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ThemeController extends GetxController{
   @override
@@ -42,7 +41,6 @@ class ThemeController extends GetxController{
     String bombTemp = bombData.data()!.values.toString();
     bomb.assignAll(bombTemp.split(','));
   }
-
 
   GlobalKey themeKey = GlobalKey();
 

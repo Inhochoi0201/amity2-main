@@ -1,7 +1,7 @@
 import 'package:amity2/util/Import_Package.dart';
 import 'dart:math' as math;
 
-import 'package:amity2/view/Bomb_Game_HowtoPlay.dart';
+import 'package:amity2/view/BombGame/Bomb_Game_HowtoPlay.dart';
 
 class BombGameSetting extends StatelessWidget {
    BombGameSetting({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class BombGameSetting extends StatelessWidget {
             child:  Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SpinKitPouringHourGlassRefined(color: Color(0xffaecdff),),
+                const SpinKitChasingDots(color: Color(0xffaecdff),),
                 SizedBox(height: 20.h,),
                 Text('데이터를 불러오고 있습니다...',style: TextStyle(fontSize: 12.sp),)
               ],
