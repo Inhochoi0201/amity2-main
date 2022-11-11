@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:amity2/util/Import_Package.dart';
+import 'package:amity2/view/Splash.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -6,9 +10,9 @@ void main() async{
   runApp(const MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class MyApp extends StatelessWidget {
               )
             ),
           ),
-          home:  Home()
+          home: AppVersion(),
         );
       }
     );

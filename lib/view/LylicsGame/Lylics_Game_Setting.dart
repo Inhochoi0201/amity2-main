@@ -1,4 +1,6 @@
 import 'package:amity2/util/Import_Package.dart';
+import 'package:amity2/view/LylicsGame/Lylics_Game_HTP.dart';
+import 'dart:math' as math;
 class LylicsGameSetting extends StatelessWidget {
   LylicsGameSetting({Key? key}) : super(key: key);
   final music = Get.put(MusicController());
@@ -64,65 +66,88 @@ class LylicsGameSetting extends StatelessWidget {
                             endIndent: 24.w,
                             thickness: 1.5,
                           ),
-                          Padding(
-                            padding:  EdgeInsets.only(top: 50.h),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.symmetric(horizontal: 50.h),
-                                  child: Container(
-                                    height: 120.h,
-                                    width: 320.w,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: const Color(0xffaecdff),
-                                          width: 3
+                          Stack(
+                            children: [
+                              Padding(
+                                padding:  EdgeInsets.only(top: 50.h),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding:  EdgeInsets.symmetric(horizontal: 50.h),
+                                      child: Container(
+                                        height: 120.h,
+                                        width: 320.w,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: const Color(0xffaecdff),
+                                              width: 3
+                                          ),
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            Center(
+                                              child: Text('가요능력평가', style: TextStyle(fontSize: 40.sp, fontFamily: 'OnePop'),),
+                                            ),
+                                            Positioned(
+                                                top: 5.h,
+                                                left: 8.w,
+                                                child: RichText(
+                                                  text:  TextSpan(
+                                                      text: 'Play With  ',
+                                                      style: TextStyle(
+                                                          fontSize: 18.sp,
+                                                          fontWeight: FontWeight.normal,
+                                                          color:const Color(0xff3d3d3d)
+                                                      ),
+                                                      children: <TextSpan>[
+                                                        TextSpan(
+                                                          text: 'A',
+                                                          style: TextStyle(
+                                                            fontSize: 20.sp,
+                                                            fontWeight: FontWeight.bold,
+                                                            color: const Color(0xffaecdff),
+                                                          ),),
+                                                        TextSpan(
+                                                            text: 'MITY',
+                                                            style: TextStyle(
+                                                              fontSize: 18.sp,
+                                                              color:const Color(0xff3d3d3d),
+                                                              fontWeight: FontWeight.normal,
+                                                            )
+                                                        )
+                                                      ]
+                                                  ),
+                                                ) ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                    child: Stack(
-                                      children: [
-                                        Center(
-                                          child: Text('가요능력평가', style: TextStyle(fontSize: 40.sp, fontFamily: 'OnePop'),),
-                                        ),
-                                        Positioned(
-                                            top: 5.h,
-                                            left: 8.w,
-                                            child: RichText(
-                                              text:  TextSpan(
-                                                  text: 'Play With  ',
-                                                  style: TextStyle(
-                                                      fontSize: 18.sp,
-                                                      fontWeight: FontWeight.normal,
-                                                      color:const Color(0xff3d3d3d)
-                                                  ),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                      text: 'A',
-                                                      style: TextStyle(
-                                                        fontSize: 20.sp,
-                                                        fontWeight: FontWeight.bold,
-                                                        color: const Color(0xffaecdff),
-                                                      ),),
-                                                    TextSpan(
-                                                        text: 'MITY',
-                                                        style: TextStyle(
-                                                          fontSize: 18.sp,
-                                                          color:const Color(0xff3d3d3d),
-                                                          fontWeight: FontWeight.normal,
-                                                        )
-                                                    )
-                                                  ]
-                                              ),
-                                            ) ),
-                                      ],
+                                    SizedBox(height: 30.h,),
+                                    controller.playerSetting(),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                top: 20.h,
+                                right: 20.w,
+                                child: InkWell(
+                                  onTap: () => Get.to(() => const LylicsGameHTP(), opaque: false, transition: Transition.fadeIn,),
+                                  child: Transform.rotate(
+                                    angle: 30.0 * math.pi / 180,
+                                    child: Container(
+                                      padding:  EdgeInsets.all(15.r),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: const Color(0xffaecdff), width: 2),
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child:  Center(
+                                        child: Text('How\nTo\nPlay?', style: TextStyle(fontSize: 14.sp, color: const Color(0xffaecdff),fontWeight: FontWeight.bold),textAlign: TextAlign.center,),),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 30.h,),
-                                controller.playerSetting(),
-                              ],
-                            ),
+                                ),)
+                            ],
                           ),
                           controller.minuteSetting(),
                           controller.timerVisible(),

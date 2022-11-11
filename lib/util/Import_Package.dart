@@ -19,6 +19,10 @@ export 'package:toggle_switch/toggle_switch.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
 export 'package:flutter_tts/flutter_tts.dart';
+export 'package:splash_screen_view/SplashScreenView.dart';
+export 'package:firebase_remote_config/firebase_remote_config.dart';
+export 'package:package_info/package_info.dart';
+export 'package:url_launcher/url_launcher.dart';
 /*******************Controller*******************/
 export 'package:amity2/controller/Setting_Controller.dart';
 export 'package:amity2/controller/Penalty_Controller.dart';

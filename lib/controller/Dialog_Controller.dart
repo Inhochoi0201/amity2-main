@@ -1,7 +1,19 @@
 import 'package:amity2/util/Import_Package.dart';
 
-
 class DialogController extends GetxController{
+
+  void updateGuide(){
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.transparent,
+        content: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+          ),
+        ),
+      )
+    );
+  }
   void customReset(){
     Get.dialog(
       AlertDialog(

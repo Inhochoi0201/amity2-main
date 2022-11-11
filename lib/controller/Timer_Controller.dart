@@ -1,5 +1,5 @@
 import 'package:amity2/util/Import_Package.dart';
-import 'package:amity2/util/Result.dart';
+import 'package:amity2/view/BodyLanguagGame/Result.dart';
 
 class TimerController extends GetxController{
   final audioController = Get.put(AudioController());

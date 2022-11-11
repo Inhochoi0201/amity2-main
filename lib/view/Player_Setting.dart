@@ -7,9 +7,10 @@ class PlayerSetting extends GetView<PlayerSettingController> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: ()=> FocusScope.of(context).unfocus(),
-      child: Material(
-        color: Colors.transparent,
-        child: Stack(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.transparent,
+        body: Stack(
           children: [
             Positioned(
               top: 0,bottom: 0,left: 0,right: 0,
