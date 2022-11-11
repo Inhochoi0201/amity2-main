@@ -7,8 +7,29 @@ class DialogController extends GetxController{
       AlertDialog(
         backgroundColor: Colors.transparent,
         content: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
           decoration: BoxDecoration(
             color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: const Color(0xffaecdff), width: 5)
+          ),
+          child: Column(
+            children: [
+              Icon(Icons.update, color: const Color(0xffaecdff), size: 30.r,),
+              SizedBox(height: 8.h,),
+              Text('업데이트 알림', style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold,fontFamily: 'OneTitle'),),
+              SizedBox(height: 8.h,),
+              Text('원할한 실행을 위해 업데이트를 진행해주세요.', style: TextStyle(fontSize: 13.sp),),
+              SizedBox(height: 12.h,),
+              InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Color(0xffaecdff),
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       )
