@@ -19,7 +19,7 @@ export 'package:toggle_switch/toggle_switch.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
 export 'package:flutter_tts/flutter_tts.dart';
-export 'package:splash_screen_view/SplashScreenView.dart';
+export 'package:flutter_native_splash/flutter_native_splash.dart';
 export 'package:firebase_remote_config/firebase_remote_config.dart';
 export 'package:package_info/package_info.dart';
 export 'package:url_launcher/url_launcher.dart';
@@ -29,7 +29,7 @@ export 'package:amity2/controller/Penalty_Controller.dart';
 export 'package:amity2/controller/Dialog_Controller.dart';
 export 'package:amity2/controller/Audio_Controller.dart';
 export 'package:amity2/controller/Timer_Controller.dart';
-
+export 'package:amity2/controller/App_Controller.dart';
 /***********************Screen*******************/
 export 'package:amity2/view/WordGame/Word_Game.dart';
 export 'package:amity2/view/Player_Setting.dart';
@@ -43,6 +43,8 @@ export 'package:amity2/view/BombGame/Bomb_Game.dart';
 export 'package:amity2/view/BodyLanguagGame/Body_Language_Solo.dart';
 export 'package:amity2/view/LylicsGame/Lylics_Game_Setting.dart';
 export 'package:amity2/view/LylicsGame/Lylics_Game.dart';
+export 'package:amity2/view/App_Information.dart';
+
 /***********************Model*******************/
 export 'package:amity2/model/Player.dart';
 /***********************util*********************/

@@ -66,29 +66,7 @@ class BombGame extends StatelessWidget {
                         controller.currentPlayer.value++;
                       }else if(controller.currentPlayer.value == controller.setting.playerList.length-1) {
                         controller.currentPlayer.value = 0;
-                      }
-                      print(controller.currentPlayer.value);
-                      /*if(controller.currentPlayer.value >= setting.playerList.length - 1){
-                        if(setting.playerList.length >= 4){
-                          controller.carouselController.jumpToPage(0);
-                          controller.currentPlayer.value = 0;
-                        }
-                        else{
-                          controller.currentPlayer.value = 0;
-                          Scrollable.ensureVisible(setting.playerList[0].key.currentContext!,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.linear);
-                        }
-                      }else if(controller.currentPlayer.value < setting.playerList.length - 1){
-                        print('여기로들어옴');
-                        Scrollable.ensureVisible(setting.playerList[controller.currentPlayer.value + 1].key.currentContext!,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.linear);
-                        controller.currentPlayer.value++;
-                      }else{
-                        print('?');
-                      }
-*/
+                      };
                     },
                     child: Container(
                       decoration: BoxDecoration(

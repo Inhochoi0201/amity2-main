@@ -38,6 +38,7 @@ class BodyLanguageSolo extends StatelessWidget {
                           forwardAnimationCurve: Curves.elasticInOut,
                           reverseAnimationCurve: Curves.easeOut,);
                       }else{
+                        Get.put(AudioController()).audioClick();
                         controller.timer.isReady = true;
                         controller.timer.pause();
                         scoreInsert();
@@ -92,10 +93,12 @@ class BodyLanguageSolo extends StatelessWidget {
                   InkWell(
                     onTap: (){
                       if(controller.timer.isReady){
+                        Get.put(AudioController()).audioNext();
                         controller.timer.isReady = false;
                         controller.i.value++;
                         controller.timer.start();
                       }else{
+                        Get.put(AudioController()).audioClick();
                         controller.i.value++;
                       }
                     },

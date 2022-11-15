@@ -16,6 +16,5 @@ class MusicController extends GetxController{
     var productData = await firestore.collection("lylics").doc("music").get();
     String productTemp = productData.data()!.values.toString();
     music.assignAll(productTemp.split('^'));
-    print(music.toString());
   }
 }

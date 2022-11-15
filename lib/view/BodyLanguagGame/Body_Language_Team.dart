@@ -52,8 +52,8 @@ class BodyLanguageTeam extends StatelessWidget {
                       children: [
                          InkWell(
                               onTap: () {
-                                print(timer.isReady);
                                if(!timer.isReady){
+                                 Get.put(AudioController()).audioClick();
                                  timer.correctNum++;
                                  gameController.i.value++;
                                  gameController.update();
@@ -119,8 +119,8 @@ class BodyLanguageTeam extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            print(timer.time);
                             if(timer.isReady){
+                              Get.put(AudioController()).audioNext();
                               gameController.nextTeam();
                               timer.isReady = false;
                             }else{

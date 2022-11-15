@@ -9,6 +9,7 @@ class Result extends GetView<BodyLanguageTeamController>{
 
   @override
   Widget build(BuildContext context){
+    Get.put(AudioController()).audioGameover();
     return Container(
       width: Get.width * 0.8,
       height: Get.height * 0.8,
@@ -139,6 +140,7 @@ class ResultSolo extends GetView<BodyLanguageSoloController>{
   BodyLanguageSoloController get controller => super.controller;
   @override
   Widget build(BuildContext context) {
+    Get.put(AudioController()).audioGameover();
     // TODO: implement build
     return Material(
       color: Colors.grey.withOpacity(0.4),

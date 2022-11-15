@@ -178,6 +178,7 @@ class LylicsGame extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
+                  controller.audio.audioClick();
                   Get.back();
                   Get.to(const Answer(), opaque: false,
                       duration: const Duration(milliseconds: 600),
@@ -207,11 +208,13 @@ class LylicsGameController extends GetxController{
   final timer = Get.put(TimerController());
   final setting = Get.put(SettingController());
   final music = Get.put(MusicController()).music;
+  final audio = Get.put(AudioController());
   RxString lylic =''.obs;
   RxString title =''.obs;
   RxInt i = 0.obs;
   RxBool isSpeak = false.obs;
   RxInt correctPlayer = 100.obs;
+
   @override
   void onInit() {
     // TODO: implement onInit

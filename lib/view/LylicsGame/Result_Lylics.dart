@@ -1,12 +1,15 @@
 import 'package:amity2/util/Import_Package.dart';
 
 class ResultLylics extends GetView<LylicsGameController>{
+  const ResultLylics({super.key});
+
   @override
   // TODO: implement controller
   LylicsGameController get controller => super.controller;
 
   @override
   Widget build(BuildContext context) {
+    controller.audio.audioGameover();
     // TODO: implement build
     return Material(
       color: Colors.grey.withOpacity(0.2),

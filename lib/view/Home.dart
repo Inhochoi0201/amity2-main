@@ -1,10 +1,11 @@
 import 'package:amity2/util/Import_Package.dart';
 
-class Home extends StatelessWidget {
-   Home({Key? key}) : super(key: key);
 
+class Home extends StatelessWidget {
+   const Home({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -28,12 +29,14 @@ class Home extends StatelessWidget {
             BombGameSetting(),
             BodyLanguageSetting(),
             LylicsGameSetting(),
+            const AppInformation()
           ],
           titles: const [
             '초성게임',
             '폭탄게임',
             '몸으로 말해요',
-            '가요능력평가'
+            '가요능력평가',
+            '앱 정보'
           ],
         ),
       )

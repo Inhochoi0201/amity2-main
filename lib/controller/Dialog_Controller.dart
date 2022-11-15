@@ -1,35 +1,50 @@
 import 'package:amity2/util/Import_Package.dart';
 
 class DialogController extends GetxController{
+  final audio = Get.put(AudioController());
 
   void updateGuide(){
     Get.dialog(
       AlertDialog(
         backgroundColor: Colors.transparent,
-        content: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: const Color(0xffaecdff), width: 5)
-          ),
-          child: Column(
-            children: [
-              Icon(Icons.update, color: const Color(0xffaecdff), size: 30.r,),
-              SizedBox(height: 8.h,),
-              Text('업데이트 알림', style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold,fontFamily: 'OneTitle'),),
-              SizedBox(height: 8.h,),
-              Text('원할한 실행을 위해 업데이트를 진행해주세요.', style: TextStyle(fontSize: 13.sp),),
-              SizedBox(height: 12.h,),
-              InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Color(0xffaecdff),
+        content: WillPopScope(
+          onWillPop: ()=>Future(() => false),
+          child: Container(
+            height: Get.height * 0.4,
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: const Color(0xffaecdff), width: 5)
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Icon(Icons.update, color: const Color(0xffaecdff), size: 30.r,),
+                      SizedBox(height: 8.h,),
+                      Text('업데이트 알림', style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold,fontFamily: 'OneTitle'),),
+                      SizedBox(height: 8.h,),
+                      Text('원할한 실행을 위해\n업데이트를 진행해주세요.', style: TextStyle(fontSize: 13.sp),textAlign: TextAlign.center,),
+                      SizedBox(height: 12.h,),
+                      Image.asset('assets/images/main_icon.png', height: 80.r, width: 80.r,),
+                      SizedBox(height: 12.h,),
+                    ],
                   ),
                 ),
-              )
-            ],
+                InkWell(
+                  child: Container(
+                    height: 42.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: const Color(0xffaecdff),
+                    ),
+                    child: Center(child: Text('업데이트', style: TextStyle(fontSize: 15.sp, color: Colors.white, fontWeight: FontWeight.bold),),),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       )
@@ -65,8 +80,6 @@ class DialogController extends GetxController{
                   GestureDetector(
                     onTap: (){
                       Get.put(PenaltyController()).resetList();
-                      print(Get.put(PenaltyController()).showList);
-                      print(Get.put(PenaltyController()).basicList);
                       Get.back();
                     },
                     child: Container(
@@ -101,6 +114,7 @@ class DialogController extends GetxController{
       )
     );
   }
+
   void saveCustom(){
     Get.dialog(AlertDialog(
       backgroundColor: Colors.transparent,
@@ -296,7 +310,7 @@ class DialogController extends GetxController{
   }
 
   void gameOver(int n){
-    audioGameover();
+    audio.audioGameover();
     Get.dialog(
         WillPopScope(
           onWillPop: ()=>Future(() => false),
@@ -385,16 +399,6 @@ class DialogController extends GetxController{
       ),
     ),
         ));
-  }
-
-
-  final sfxPlayer = AudioPlayer();
-
-  Future audioGameover() async{
-    await sfxPlayer.setVolume(75);
-    await sfxPlayer.setSpeed(1);
-    await sfxPlayer.setAsset('assets/sfx/gameover.mp3');
-    sfxPlayer.play();
   }
 
     void back(){

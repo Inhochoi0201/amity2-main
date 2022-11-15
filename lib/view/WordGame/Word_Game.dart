@@ -145,7 +145,6 @@ class WordGame extends StatelessWidget {
                   onTap: (){
                     Get.put(AudioController()).audioNext();
                     Get.put(TimerController()).pass();
-                    print(Get.put(WordGameController()).currentIndex.value );
                     if(Get.put(WordGameController()).currentIndex.value >= controller.playerList.length - 1){
                       if(controller.playerList.length >= 4){
                         Get.put(WordGameController()).listController.jumpTo(0);
@@ -158,15 +157,11 @@ class WordGame extends StatelessWidget {
                             curve: Curves.linear);
                       }
                     }else if(Get.put(WordGameController()).currentIndex.value < controller.playerList.length - 1){
-                      print('여기로들어옴');
                       Scrollable.ensureVisible(controller.playerList[Get.put(WordGameController()).currentIndex.value + 1].key.currentContext!,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.linear);
                       Get.put(WordGameController()).currentIndex.value++;
-                    }else{
-                      print('?');
                     }
-
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -180,7 +175,7 @@ class WordGame extends StatelessWidget {
                       children: [
                         Text(Get.put(WordGameController()).currentIndex.value ==  controller.playerList.length -1 ?
                         controller.playerList[0].name  : controller.playerList[Get.put(WordGameController()).currentIndex.value + 1].name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 16.sp)),
-                         Text( '에게 넘기기',style: TextStyle(color: Colors.white,fontSize: 15.sp),),
+                         Text('에게 넘기기',style: TextStyle(color: Colors.white,fontSize: 15.sp),),
                       ],
                     )),),
                   ),

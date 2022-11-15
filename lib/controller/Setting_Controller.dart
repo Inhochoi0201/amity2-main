@@ -402,7 +402,6 @@ class SettingController extends GetxController {
                       }else{
                         selectedRandomTime.value =(Random().nextInt(30)+90);
                       }
-                      print(selectedRandomTime.value);
                     },
                   )
               ),

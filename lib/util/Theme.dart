@@ -35,7 +35,6 @@ class ThemeController extends GetxController{
     var musicData = await firestore.collection("categoty").doc("music").get();
     String musicTemp = musicData.data()!.values.toString();
     String musicTemp2 = musicTemp.replaceAll(')', ')\n');
-    print(musicTemp2);
     music.assignAll(musicTemp2.split(','));
     var bombData = await firestore.collection("categoty").doc("bomb").get();
     String bombTemp = bombData.data()!.values.toString();

@@ -42,7 +42,6 @@ class TimerController extends GetxController{
     }});
   }
 
-
   void pass() {
     time.value = int.parse(Get.put(SettingController()).selectedTimer.value);
   }
