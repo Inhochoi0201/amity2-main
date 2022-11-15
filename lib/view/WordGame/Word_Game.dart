@@ -3,7 +3,7 @@ import 'package:amity2/util/Import_Package.dart';
 
 class WordGame extends StatelessWidget {
   WordGame({Key? key}) : super(key: key);
-  final controller = Get.put(SettingController());
+  final controller = Get.put(WordGameController());
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
@@ -15,13 +15,13 @@ class WordGame extends StatelessWidget {
       child: Scaffold(
           body: Container(
             width: Get.width,
-            padding:  EdgeInsets.symmetric(horizontal: 16.w),
+            padding:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Obx(() => Container(
-                  height: 120.h,
+                  height: 200.h,
                   width: 320.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -33,7 +33,7 @@ class WordGame extends StatelessWidget {
                   child: Stack(
                     children: [
                        Center(
-                        child: Text(Get.put(WordGameController()).title.value, style:  TextStyle(fontSize: 60.sp, fontFamily: 'OnePop', color: Colors.black),),
+                        child: Text(controller.title.value, style:  TextStyle(fontSize: 100.sp, fontFamily: 'OnePop', color: Colors.black),),
                       ),
                       Positioned(
                           top: 5.h,
@@ -69,7 +69,7 @@ class WordGame extends StatelessWidget {
                   ),
                 ),
                 ),
-                 SizedBox(height: 20.h,),
+                 SizedBox(height: 10.h,),
                 Stack(
                   children: [
                     Container(
@@ -78,15 +78,16 @@ class WordGame extends StatelessWidget {
                         color: Colors.white,
                         border: Border.all(color: const Color(0xffaecdff))
                       ),
-                      height: 200.h,
-                      width: Get.width*0.8,
+                      height: 150.r,
+                      width: 150.r,
                       child: Center(
                             child: Obx(
                                 ()=> AnimatedFlipCounter(
-                                value: Get.put(TimerController()).time.value,
+                                  duration: const Duration(milliseconds: 100),
+                                value: Get.put(TimerController()).time.value < 0 ? 0 : Get.put(TimerController()).time.value,
                                 textStyle: TextStyle(
                                   fontFamily: 'OneTitle',
-                                  fontSize: 80.sp,
+                                  fontSize: 75.sp,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 0,
                                   color: Get.put(TimerController()).time.value > Get.put(TimerController()).time.value/2 ? const Color(0xffaecdff) : Colors.red,
@@ -103,65 +104,25 @@ class WordGame extends StatelessWidget {
                       )
                     ),
                     Positioned(
-                        top: 130.h,
-                        left: Get.width/2 + 20.w,
+                        top: 0,
+                        left: 0,
                         child:  Icon(Icons.timer_outlined, size: 50.sp,color: const Color(0xffaecdff),)
                     ),
                   ],
                 ),
-                 SizedBox(height: 50.h,),
-                SizedBox(
-                  width: 150.w,
-                    height: 200.h,
-                    child:
-                      ListView.separated(
-                        controller: Get.put(WordGameController()).listController,
-                        scrollDirection: Axis.horizontal,
-                          physics:  const ScrollPhysics(),
-                          itemBuilder: (BuildContext ctx, int index){
-                            return Container(
-                              key: controller.playerList[index].key,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Image.asset(controller.playerIMG[index],height: 150.r, width: 150.r,),
-                                     SizedBox(height: 20.h,),
-                                    Text(controller.playerList[index].name, style:  TextStyle(fontSize: 20.sp),),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext ctx, int index){
-                            return Container();
-                          },
-                          itemCount: controller.playerList.length
-                      ),
-                    ),
-                 SizedBox(height: 20.h,),
+                 SizedBox(height: 10.h,),
+                  playerSlider(),
+                 SizedBox(height: 30.h,),
                 GestureDetector(
                   onTap: (){
                     Get.put(AudioController()).audioNext();
                     Get.put(TimerController()).pass();
-                    if(Get.put(WordGameController()).currentIndex.value >= controller.playerList.length - 1){
-                      if(controller.playerList.length >= 4){
-                        Get.put(WordGameController()).listController.jumpTo(0);
-                        Get.put(WordGameController()).currentIndex.value = 0;
-                      }
-                      else{
-                        Get.put(WordGameController()).currentIndex.value = 0;
-                        Scrollable.ensureVisible(controller.playerList[0].key.currentContext!,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.linear);
-                      }
-                    }else if(Get.put(WordGameController()).currentIndex.value < controller.playerList.length - 1){
-                      Scrollable.ensureVisible(controller.playerList[Get.put(WordGameController()).currentIndex.value + 1].key.currentContext!,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.linear);
-                      Get.put(WordGameController()).currentIndex.value++;
-                    }
+                    controller.carouselController.nextPage(duration: const Duration(milliseconds: 100), curve: Curves.easeIn);
+                    if(controller.currentPlayer.value < controller.setting.playerList.length-1){
+                      controller.currentPlayer.value++;
+                    }else if(controller.currentPlayer.value == controller.setting.playerList.length-1) {
+                      controller.currentPlayer.value = 0;
+                    };
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -173,8 +134,8 @@ class WordGame extends StatelessWidget {
                     child: Center(child: Obx(()=> Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(Get.put(WordGameController()).currentIndex.value ==  controller.playerList.length -1 ?
-                        controller.playerList[0].name  : controller.playerList[Get.put(WordGameController()).currentIndex.value + 1].name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 16.sp)),
+                        Text(controller.currentPlayer.value ==  controller.setting.playerList.length -1 ?
+                        controller.setting.playerList[0].name  : controller.setting.playerList[controller.currentPlayer.value + 1].name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 16.sp)),
                          Text('에게 넘기기',style: TextStyle(color: Colors.white,fontSize: 15.sp),),
                       ],
                     )),),
@@ -186,13 +147,59 @@ class WordGame extends StatelessWidget {
       ),
     );
   }
+
+  Widget playerSlider() {
+    return SizedBox(
+      width: 150.w,
+      height: 200.h,
+      child:  CarouselSlider(
+        carouselController: controller.carouselController,
+        options: CarouselOptions(
+            scrollDirection: Axis.horizontal,
+            scrollPhysics: const NeverScrollableScrollPhysics(),
+            autoPlay: false,
+            height: 200.h,
+            initialPage: 0,
+            enableInfiniteScroll: true,
+            viewportFraction: 1,
+            onPageChanged: (index, reason) {
+              controller.setIndex(index);
+            }),
+        items: List.generate( controller.setting.playerList.length,
+                (index) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 150.w,
+                    height: 150.h,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fitHeight,
+                          image: AssetImage(
+                              controller.setting.playerIMG[index]),
+                        )),
+                  ),
+                  SizedBox(height: 20.h,),
+                  Text(controller.setting.playerList[index].name, style:  TextStyle(fontSize: 25.sp),),
+                ],
+              );
+            }),
+      ),
+    );
+  }
 }
 
 class WordGameController extends GetxController{
+  final setting = Get.put(SettingController());
   final timer = Get.put(TimerController());
-  ScrollController listController = ScrollController();
+  CarouselController carouselController = CarouselController();
+  void setIndex(int n){
+    currentPlayer.value = n;
+  }
+  RxInt currentPlayer = 0.obs;
   final List<String> wordList = ['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
-  RxInt currentIndex = 0.obs; //현재플레이어
   RxString title = ''.obs; //현제 타이틀
   RxInt i = 0.obs;
 

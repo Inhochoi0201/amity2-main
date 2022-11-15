@@ -3,17 +3,16 @@ import 'package:amity2/util/Import_Package.dart';
 
 class BodyLanguageTeam extends StatelessWidget {
   BodyLanguageTeam({Key? key}) : super(key: key);
-  final timer = Get.put(TimerController());
-  final audioController = Get.put(AudioController());
-  final controller = Get.put(SettingController());
-  final gameController = Get.put(BodyLanguageTeamController());
-  final themeController = Get.put(ThemeController());
+  final controller = Get.put(BodyLanguageTeamController());
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft,DeviceOrientation.landscapeRight]);
     return WillPopScope(
-      onWillPop: ()=> Future(() => false),
+      onWillPop: () {
+        Get.put(DialogController()).back();
+       return Future(() => false);
+      },
       child: Scaffold(
         body: Container(
           color: Colors.white,
@@ -23,10 +22,10 @@ class BodyLanguageTeam extends StatelessWidget {
             children: [
               Obx(
                 ()=>IconRoundedProgressBar(
-                  percent: timer.time.value > 0 ? (timer.time/(int.parse(controller.selectedMinuteTimer.value) * 60)) * 100 : 0.01,
-                  childCenter: Text(controller.timeVisibleMode.value ? '가림막 모드' :
-    timer.time.value > 0 ? timer.time.value.toString() : '0', style: TextStyle(color: const Color(0xff4169e1), fontSize: 9.sp, fontWeight: FontWeight.bold,fontFamily: 'OneTitle'),),
-                  childRight: Text('현재 팀: ${gameController.currentTeam + 1}팀', style: TextStyle(fontSize: 13.sp, color:  const Color(0xff4169e1)),),
+                  percent: controller.timer.time.value > 0 ? (controller.timer.time/(int.parse(controller.setting.selectedMinuteTimer.value) * 60)) * 100 : 0.01,
+                  childCenter: Text(controller.setting.timeVisibleMode.value ? '가림막 모드' :
+                  controller.timer.time.value > 0 ? controller.timer.time.value.toString() : '0', style: TextStyle(color: const Color(0xff4169e1), fontSize: 9.sp, fontWeight: FontWeight.bold,fontFamily: 'OneTitle'),),
+                  childRight: Text('현재 팀: ${controller.currentTeam + 1}팀', style: TextStyle(fontSize: 13.sp, color:  const Color(0xff4169e1)),),
                   height: 60.h,
                   widthIconSection: 50,
                   icon: Padding(
@@ -46,17 +45,17 @@ class BodyLanguageTeam extends StatelessWidget {
               ///'영화','애니','웹툰','인물','물건','음악'
               Expanded(
                 child: GetBuilder<BodyLanguageTeamController>(
-                  init: gameController,
+                  init: controller,
                   builder: (value) {
                     return Row(
                       children: [
                          InkWell(
                               onTap: () {
-                               if(!timer.isReady){
+                               if(!controller.timer.isReady){
                                  Get.put(AudioController()).audioClick();
-                                 timer.correctNum++;
-                                 gameController.i.value++;
-                                 gameController.update();
+                                 controller.timer.correctNum++;
+                                 controller.i.value++;
+                                 controller.update();
                                }else{
                                  Get.snackbar('준비상태입니다.', '패스를 누르면 바로 시작합니다.',
                                    snackPosition: SnackPosition.TOP,
@@ -72,7 +71,7 @@ class BodyLanguageTeam extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '정답\n${timer.correctNum}',
+                                    '정답\n${controller.timer.correctNum}',
                                     style: TextStyle(
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.bold,
@@ -85,33 +84,8 @@ class BodyLanguageTeam extends StatelessWidget {
                           child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.w),
                               child: Center(
-                                child: Text(
-                                  controller.selectedTheme.value == '영화'
-                                      ? themeController
-                                          .movie[gameController.i.value]
-                                      : controller.selectedTheme.value == '애니'
-                                          ? themeController
-                                              .animation[gameController.i.value]
-                                          : controller.selectedTheme.value == '웹툰'
-                                              ? themeController
-                                                  .webtoon[gameController.i.value]
-                                              : controller.selectedTheme.value ==
-                                                      '인물'
-                                                  ? themeController.celeb[
-                                                      gameController.i.value]
-                                                  : controller.selectedTheme
-                                                              .value ==
-                                                          '물건'
-                                                      ? themeController.product[
-                                                          gameController.i.value]
-                                                      : controller.selectedTheme
-                                                                  .value ==
-                                                              '음악'
-                                                          ? themeController.music[
-                                                              gameController
-                                                                  .i.value]
-                                                          : '테마를 불러오던 중\n오류가 발생하였습니다.',
-                                  style: TextStyle(fontSize: 62.sp,fontFamily: 'OneTitle'),
+                                child: Text( controller.wordList[controller.i.value],
+                                  style: TextStyle(fontSize: controller.wordList[controller.i.value].length > 8 ? 48.sp : 60.sp,fontFamily: 'OneTitle'),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -119,13 +93,13 @@ class BodyLanguageTeam extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            if(timer.isReady){
+                            if(controller.timer.isReady){
                               Get.put(AudioController()).audioNext();
-                              gameController.nextTeam();
-                              timer.isReady = false;
+                              controller.nextTeam();
+                              controller.timer.isReady = false;
                             }else{
-                              gameController.i.value++;
-                              gameController.update();
+                              controller.i.value++;
+                              controller.update();
                             }
 
                           },
@@ -158,29 +132,38 @@ class BodyLanguageTeam extends StatelessWidget {
 }
 
 class BodyLanguageTeamController extends GetxController{
-  final themeController = Get.put(ThemeController());
   final timer = Get.put(TimerController());
+  final audio = Get.put(AudioController());
+  final setting = Get.put(SettingController());
+  final theme = Get.put(ThemeController());
+  List<String> wordList = [];
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    timer.isReady = false;
     timer.correctNum = 0;
     if(Get.put(SettingController()).selectedTheme.value == '영화'){
-      themeController.movie.shuffle();
+      theme.movie.shuffle();
+      wordList.assignAll(theme.movie);
     }else if(Get.put(SettingController()).selectedTheme.value == '애니'){
-      themeController.animation.shuffle();
+      theme.animation.shuffle();
+      wordList.assignAll(theme.animation);
     }else if(Get.put(SettingController()).selectedTheme.value == '웹툰'){
-      themeController.webtoon.shuffle();
+      theme.webtoon.shuffle();
+      wordList.assignAll(theme.webtoon);
     }else if(Get.put(SettingController()).selectedTheme.value == '인물'){
-      themeController.celeb.shuffle();
+      theme.celeb.shuffle();
+      wordList.assignAll(theme.celeb);
     }else if(Get.put(SettingController()).selectedTheme.value == '물건'){
-      themeController.product.shuffle();
+      theme.product.shuffle();
+      wordList.assignAll(theme.product);
     }else if(Get.put(SettingController()).selectedTheme.value == '음악'){
-      themeController.music.shuffle();
+      theme.music.shuffle();
+      wordList.assignAll(theme.music);
     }
     timer.time.value = int.parse(Get.put(SettingController()).selectedMinuteTimer.value) * 60; //타이머 설정
     timer.start();
-    ever(i, (callback) => update());
   }
 
   RxInt i =0.obs;

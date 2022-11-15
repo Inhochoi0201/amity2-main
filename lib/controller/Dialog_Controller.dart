@@ -333,7 +333,7 @@ class DialogController extends GetxController{
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(Get.put(SettingController()).playerList[Get.put(WordGameController()).currentIndex.value].name, style:  TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),),
+                  Text(Get.put(SettingController()).playerList[Get.put(WordGameController()).currentPlayer.value].name, style:  TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),),
                    Text(' 탈락!', style: TextStyle(fontSize: 18.sp),),
                 ],
               ),
@@ -369,6 +369,7 @@ class DialogController extends GetxController{
                     onTap: (){
                       if(n==1){
                         Get.put(WordGameController()).makeTitle();
+                        Get.put(TimerController()).time.value = int.parse(Get.put(SettingController()).selectedTimer.value);
                         Get.put(TimerController()).start();
                       }else if(n==2){
                         Get.put(BombGameController()).makeTitle();
@@ -393,7 +394,7 @@ class DialogController extends GetxController{
               ),
                SizedBox(height: 20.h,),
                Text('다시하기를 누르면 게임이', style: TextStyle(fontSize: 13.sp),),
-              Text('[ ${(Get.put(SettingController()).playerList[Get.put(WordGameController()).currentIndex.value].name)} ]님부터 시작됩니다.', style:  TextStyle(fontSize: 13.sp),),
+              Text('[ ${(Get.put(SettingController()).playerList[Get.put(WordGameController()).currentPlayer.value].name)} ]님부터 시작됩니다.', style:  TextStyle(fontSize: 13.sp),),
             ],
           ),
       ),
@@ -428,6 +429,72 @@ class DialogController extends GetxController{
                     Get.put(TimerController()).timer!.cancel();
                     Get.put(TimerController()).time.value = -100;
                     Get.back(closeOverlays: true);
+                  },
+                  child: Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xffaecdff),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      padding:  EdgeInsets.fromLTRB(30.w, 20.h, 30.w, 20.h),
+                      child:  Center(child: Text('확인', style: TextStyle(fontSize: 15.sp, color: Colors.white),),),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Get.back();
+                    Get.put(TimerController()).start();
+                  },
+                  child: Padding(
+                    padding:  EdgeInsets.only(right: 16.w),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xffaecdff),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      padding:  EdgeInsets.fromLTRB(30.w, 20.h, 30.w, 20.h),
+                      child:  Center(child: Text('취소', style: TextStyle(fontSize:15.sp,color: Colors.white),),),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    ));
+  }
+
+  void protectBack(){
+    Get.put(TimerController()).pause();
+    Get.dialog(AlertDialog(
+      backgroundColor: Colors.transparent,
+      content: Container(
+        height: Get.height * 0.8,
+        width: Get.width * 0.4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.info, size: 50.r,color: const Color(0xffaecdff),),
+            SizedBox(height: 20.h,),
+            Text('게임을 나가시겠습니까?', style: TextStyle(fontSize: 18.sp),),
+            SizedBox(height: 30.h,),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.put(AudioController()).clockSfx.stop();
+                    Get.put(TimerController()).timer!.cancel();
+                    Get.put(TimerController()).time.value = -100;
+                    Get.to(()=>const ScreenProtect());
+                    Get.back();
                   },
                   child: Padding(
                     padding:  EdgeInsets.symmetric(horizontal: 16.w),

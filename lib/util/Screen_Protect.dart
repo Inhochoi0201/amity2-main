@@ -27,7 +27,7 @@ class ScreenProtect2 extends StatelessWidget{
   bool isTeam;
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(milliseconds: 1000), (){
+    Timer(const Duration(milliseconds: 1500), (){
       if(isTeam){
         Get.off(()=>BodyLanguageTeam());
       }else{
