@@ -251,9 +251,9 @@ class DialogController extends GetxController{
           Get.put(TimerController()).time.value = Get.put(SettingController()).selectedRandomTime.value;
           Get.put(TimerController()).start();
         }else if(n==2){
-          Get.to(()=> ScreenProtect2(isTeam: false));
+          Get.off(()=> ScreenProtect2(isTeam: false));
         }else if(n==3){
-          Get.to(()=> ScreenProtect2(isTeam: true));
+          Get.off(()=> ScreenProtect2(isTeam: true));
         }else if(n==4){
           Get.to(()=>LylicsGame());
           Get.put(TimerController()).time.value = int.parse(Get.put(SettingController()).selectedMinuteTimer.value)*60;
@@ -472,8 +472,8 @@ class DialogController extends GetxController{
     Get.dialog(AlertDialog(
       backgroundColor: Colors.transparent,
       content: Container(
-        height: Get.height * 0.8,
-        width: Get.width * 0.4,
+        height: Get.height * 0.5,
+        width: Get.width * 0.5,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.white,
@@ -482,46 +482,47 @@ class DialogController extends GetxController{
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(Icons.info, size: 50.r,color: const Color(0xffaecdff),),
+            Icon(Icons.info, size: 100.r,color: const Color(0xffaecdff),),
+            SizedBox(height: 10.h,),
+            Text('게임을 나가시겠습니까?', style: TextStyle(fontSize: 10.sp),),
             SizedBox(height: 20.h,),
-            Text('게임을 나가시겠습니까?', style: TextStyle(fontSize: 18.sp),),
-            SizedBox(height: 30.h,),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
+                InkWell(
                   onTap: () {
                     Get.put(AudioController()).clockSfx.stop();
                     Get.put(TimerController()).timer!.cancel();
                     Get.put(TimerController()).time.value = -100;
-                    Get.to(()=>const ScreenProtect());
                     Get.back();
+                    Get.off(()=>const ScreenProtect());
                   },
                   child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 16.w),
+                    padding:  EdgeInsets.symmetric(horizontal: 8.w),
                     child: Container(
                       decoration: BoxDecoration(
                         color: const Color(0xffaecdff),
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      padding:  EdgeInsets.fromLTRB(30.w, 20.h, 30.w, 20.h),
-                      child:  Center(child: Text('확인', style: TextStyle(fontSize: 15.sp, color: Colors.white),),),
+                      padding:  EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
+                      child:  Center(child: Text('확인', style: TextStyle(fontSize: 10.sp, color: Colors.white),),),
                     ),
                   ),
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: (){
                     Get.back();
                     Get.put(TimerController()).start();
                   },
                   child: Padding(
-                    padding:  EdgeInsets.only(right: 16.w),
+                    padding:  EdgeInsets.only(right: 8.w),
                     child: Container(
                       decoration: BoxDecoration(
                         color: const Color(0xffaecdff),
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      padding:  EdgeInsets.fromLTRB(30.w, 20.h, 30.w, 20.h),
-                      child:  Center(child: Text('취소', style: TextStyle(fontSize:15.sp,color: Colors.white),),),
+                      padding:  EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
+                      child:  Center(child: Text('취소', style: TextStyle(fontSize:10.sp,color: Colors.white),),),
                     ),
                   ),
                 )

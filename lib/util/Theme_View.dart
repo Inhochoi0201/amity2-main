@@ -1,5 +1,4 @@
 import 'package:amity2/util/Import_Package.dart';
-import 'package:amity2/util/Theme.dart';
 
 class ThemeView extends StatelessWidget{
   ThemeView({super.key});
@@ -46,12 +45,19 @@ class ThemeView extends StatelessWidget{
                           mainAxisSpacing: 2,
                         ),
                         itemBuilder: (ctx, index)=> GestureDetector(
-                          onTap: () => Get.put(SettingController()).selectedTheme.value = controller.theme[index],
+                          onTap: () {
+                            if(controller.theme[index].isNotEmpty){
+                              Get.put(SettingController()).selectedTheme.value = controller.theme[index];
+                            }else{
+                              Get.put(DialogController()).customAlert('데이터 불러오기를 실패했습니다.\n네트워크 확인 후 다시 시도해주세요.');
+                            }
+                          },
                           child: Obx(
                               ()=> Container(
                               width: (Get.width-24.w)/3,
                               decoration: BoxDecoration(
-                                color: Get.put(SettingController()).selectedTheme.value == controller.theme[index] ? Colors.blueAccent : Colors.transparent,
+                                color: Get.put(SettingController()).selectedTheme.value == controller.theme[index] ? Colors.blueAccent :
+                                controller.theme[index].isEmpty ? const Color(0xffdddddd) :Colors.transparent,
                                 border: Border.all(color: Colors.white)
                               ),
                                 child: Center(child: Text(controller.theme[index], style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 15.sp),),),

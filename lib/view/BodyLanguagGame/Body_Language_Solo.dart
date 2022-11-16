@@ -6,125 +6,131 @@ class BodyLanguageSolo extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft,DeviceOrientation.landscapeRight]);
-    return Material(
-      color: Colors.white,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.h),
-        height: Get.height,
-        width: Get.width,
-        child: Column(
-          children: [
-            Obx(()=> Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                  children: [
-                    const SpinKitPouringHourGlass(color: Color(0xffaecdff)),
-                    Text('타이머가 가려집니다.', style: TextStyle(fontSize: 10.sp, color: Colors.blueAccent),),
-                  ],
-                ), ///나중에 가리기
-                Text('현재 플레이어 [ ${controller.setting.playerList[controller.currentPlayer.value].name} ]',
-                style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold, color: const Color(0xffaecdff)),),
-              ],
-            )),
-            Expanded(
-              child: Row(
+    return WillPopScope(
+      onWillPop: (){
+        Get.put(DialogController()).protectBack();
+        return Future(() => false);
+      },
+      child: Material(
+        color: Colors.white,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 20.h),
+          height: Get.height,
+          width: Get.width,
+          child: Column(
+            children: [
+              Obx(()=> Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    onTap:(){
-                      if(controller.timer.isReady){
-                        Get.snackbar('준비상태입니다.', '패스를 누르면 바로 시작합니다.',
-                          snackPosition: SnackPosition.TOP,
-                          forwardAnimationCurve: Curves.elasticInOut,
-                          reverseAnimationCurve: Curves.easeOut,);
-                      }else{
-                        Get.put(AudioController()).audioClick();
-                        controller.timer.isReady = true;
-                        controller.timer.pause();
-                        scoreInsert();
-                      }
-                    },
-                    child: Container(
-                      width: Get.width * 0.1,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: const Color(0xff6495ED),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '정답',
-                          style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                          textAlign: TextAlign.center,),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      child: Center(child: Obx(()=> Text(controller.setting.selectedTheme.value == '영화'
-                          ? controller.theme
-                          .movie[controller.i.value]
-                          : controller.setting.selectedTheme.value == '애니'
-                          ? controller.theme
-                          .animation[controller.i.value]
-                          : controller.setting.selectedTheme.value == '웹툰'
-                          ? controller.theme
-                          .webtoon[controller.i.value]
-                          : controller.setting.selectedTheme.value ==
-                          '인물'
-                          ? controller.theme.celeb[
-                      controller.i.value]
-                          : controller.setting.selectedTheme
-                          .value ==
-                          '물건'
-                          ? controller.theme.product[
-                      controller.i.value]
-                          : controller.setting.selectedTheme
-                          .value ==
-                          '음악'
-                          ? controller.theme.music[
-                      controller
-                          .i.value]
-                          : '테마를 불러오던 중\n오류가 발생하였습니다.',
-                        style: TextStyle(fontSize: 50.sp,fontFamily: 'OneTitle'),
-                        textAlign: TextAlign.center,)),)
-                  ),
-                  InkWell(
-                    onTap: (){
-                      if(controller.timer.isReady){
-                        Get.put(AudioController()).audioNext();
-                        controller.timer.isReady = false;
-                        controller.i.value++;
-                        controller.timer.start();
-                      }else{
-                        Get.put(AudioController()).audioClick();
-                        controller.i.value++;
-                      }
-                    },
-                    child: Container(
-                      width: Get.width * 0.1,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: const Color(0xffFA8072),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '패스',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.sp,
-                              color: Colors.white),
+                  Row(
+                    children: [
+                      const SpinKitPouringHourGlass(color: Color(0xffaecdff)),
+                      Text('타이머가 가려집니다.', style: TextStyle(fontSize: 10.sp, color: Colors.blueAccent),),
+                    ],
+                  ), ///나중에 가리기
+                  Text('현재 플레이어 [ ${controller.setting.playerList[controller.currentPlayer.value].name} ]',
+                  style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold, color: const Color(0xffaecdff)),),
+                ],
+              )),
+              Expanded(
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap:(){
+                        if(controller.timer.isReady){
+                          Get.snackbar('준비상태입니다.', '패스를 누르면 바로 시작합니다.',
+                            snackPosition: SnackPosition.TOP,
+                            forwardAnimationCurve: Curves.elasticInOut,
+                            reverseAnimationCurve: Curves.easeOut,);
+                        }else{
+                          Get.put(AudioController()).audioClick();
+                          controller.timer.isReady = true;
+                          controller.timer.pause();
+                          scoreInsert();
+                        }
+                      },
+                      child: Container(
+                        width: Get.width * 0.1,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: const Color(0xff6495ED),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '정답',
+                            style: TextStyle(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            textAlign: TextAlign.center,),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      )
+                    Expanded(
+                        child: Center(child: Obx(()=> Text(controller.setting.selectedTheme.value == '영화'
+                            ? controller.theme
+                            .movie[controller.i.value]
+                            : controller.setting.selectedTheme.value == '애니'
+                            ? controller.theme
+                            .animation[controller.i.value]
+                            : controller.setting.selectedTheme.value == '웹툰'
+                            ? controller.theme
+                            .webtoon[controller.i.value]
+                            : controller.setting.selectedTheme.value ==
+                            '인물'
+                            ? controller.theme.celeb[
+                        controller.i.value]
+                            : controller.setting.selectedTheme
+                            .value ==
+                            '물건'
+                            ? controller.theme.product[
+                        controller.i.value]
+                            : controller.setting.selectedTheme
+                            .value ==
+                            '음악'
+                            ? controller.theme.music[
+                        controller
+                            .i.value]
+                            : '테마를 불러오던 중\n오류가 발생하였습니다.',
+                          style: TextStyle(fontSize: 50.sp,fontFamily: 'OneTitle'),
+                          textAlign: TextAlign.center,)),)
+                    ),
+                    InkWell(
+                      onTap: (){
+                        if(controller.timer.isReady){
+                          Get.put(AudioController()).audioNext();
+                          controller.timer.isReady = false;
+                          controller.i.value++;
+                          controller.timer.start();
+                        }else{
+                          Get.put(AudioController()).audioClick();
+                          controller.i.value++;
+                        }
+                      },
+                      child: Container(
+                        width: Get.width * 0.1,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: const Color(0xffFA8072),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '패스',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.sp,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+      ),
     );
   }
   

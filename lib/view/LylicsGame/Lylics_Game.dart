@@ -178,20 +178,24 @@ class LylicsGame extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  controller.audio.audioClick();
-                  Get.back();
-                  Get.to(const Answer(), opaque: false,
-                      duration: const Duration(milliseconds: 600),
-                      transition: Transition.fadeIn);
+                  if(controller.setting.playerList.length >= controller.correctPlayer.value){
+                    controller.audio.audioClick();
+                    Get.back();
+                    Get.to(const Answer(), opaque: false,
+                        duration: const Duration(milliseconds: 600),
+                        transition: Transition.fadeIn);
+                  }
                 },
-                child: Container(
-                  height: 60.h,
-                  width: Get.width - 20.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: const Color(0xffaecdff),
+                child: Obx(
+                  ()=> Container(
+                    height: 60.h,
+                    width: Get.width - 20.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: controller.setting.playerList.length >= controller.correctPlayer.value ? const Color(0xffaecdff) : const Color(0xffdddddd),
+                    ),
+                    child: Center(child: Text('정답확인', style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold, color: Colors.white),),),
                   ),
-                  child: Center(child: Text('정답확인', style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold, color: Colors.white),),),
                 ),
               )
             ],

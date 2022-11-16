@@ -10,7 +10,7 @@ class BodyLanguageTeam extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft,DeviceOrientation.landscapeRight]);
     return WillPopScope(
       onWillPop: () {
-        Get.put(DialogController()).back();
+        Get.put(DialogController()).protectBack();
        return Future(() => false);
       },
       child: Scaffold(
